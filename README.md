@@ -22,11 +22,11 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial* – 2025.
 ## 🎯 Objetivos
 
 - Objetivo general:
-  - *  El objetivo princial del proyecto es innovar en la seguridad fisica de pertenencias
+   *El objetivo princial del proyecto es innovar en la seguridad fisica de pertenencias
      aplicando una mejora tecnologica a los candados convencionales con esto logrando un aumento
-     en su efectibidad.*
+     en su efectibidad.
 - Objetivos específicos:
-  - *Listar objetivos concretos que permitirán alcanzar el objetivo general.*
+   *Listar objetivos concretos que permitirán alcanzar el objetivo general.
 
 ---
 
