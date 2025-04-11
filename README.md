@@ -30,7 +30,8 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial* – 2025.
 
 ## 🧩 Alcance del proyecto
 
-> El candado podrá ser una línea de defensa para distintos dispositivos con los que se puede contactar vía wifi, como una caja o una puerta con una cerradura basada en comunicación wifi, además de ser mucho más personal y difícil de plagiar, tendrá una seguridad basada en el dispositivo personal electrónico (teléfono), clave, y reconocimiento de voz.
+> El candado podrá ser una línea de defensa para distintos dispositivos con los que se puede contactar inalámbricamente, como una caja o una puerta con una cerradura basada en comunicación wifi, además de ser mucho más personal y difícil de plagiar, tendrá una seguridad basada en el dispositivo personal electrónico (teléfono), clave, y reconocimiento de voz.
+Este dispositivo tendrá un alcance medio basado en la conexión wifi del dispositivo y del teléfono.
 
 ---
 
