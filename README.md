@@ -70,7 +70,8 @@ Este dispositivo tendrá un alcance medio basado en la conexión wifi del dispos
 ## 📅 Cronograma de trabajo
 
 
-[Carta Gantt](https://google.com)
+[Carta Gantt](https://docs.google.com/spreadsheets/d/1SXy5cIBBjg8Lfv4A9QVeeNGlFwyp54PdS3T_EXwgsB4/edit?usp=sharing)
+[Lista de ideas](https://docs.google.com/document/d/1H04pHTeRgPucYQC7QoLWkJQStULg_HhaoTz3SgJk1dU/edit?usp=sharing)
 
 ---
 
