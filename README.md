@@ -77,7 +77,7 @@ Este dispositivo tendrá un alcance medio basado en la conexión wifi del dispos
 
 ## 📚 Bibliografía
 
-[Enlace]([https://google.com](https://www.youtube.com/watch?v=dQw4w9WgXcQ))
+[Enlace](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 
 ---
 
