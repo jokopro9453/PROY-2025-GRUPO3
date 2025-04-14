@@ -4,12 +4,12 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial* – 2025.
 
 ## 👥 Integrantes del grupo
 
-| Nombre y Apellido | Usuario GitHub | Correo USM               | Rol          |
-| ----------------- | -------------- | ------------------------ | ------------ |
-| Joaqun Carey      | @jokopro9453   | jcarey@usm.cl            | 202530002-8  |
-| Samuel Pinto      | @SamuelP-27    | spintom@usm.cl           | 202530021-4  |
-| Felipe Hinrichsen | @mitrono24     | fhinrichsen@usm.cl       | 202530007-9  |
-| Vicente Venegas   | @vichous       | vvenegas@usm.cl          | 202530011-0  |
+| Nombre y Apellido | Usuario GitHub | Correo USM                                                              | Rol          |
+| ----------------- | -------------- | ----------------------------------------------------------------------- | ------------ |
+| Joaqun Carey      | @jokopro9453   | [jcarey@usm.cl](https://www.youtube.com/watch?v=dQw4w9WgXcQ)            | 202530002-8  |
+| Samuel Pinto      | @SamuelP-27    | [spintom@usm.cl](https://www.youtube.com/watch?v=dQw4w9WgXcQ)           | 202530021-4  |
+| Felipe Hinrichsen | @mitrono24     | [fhinrichsen@usm.cl](https://www.youtube.com/watch?v=dQw4w9WgXcQ)       | 202530007-9  |
+| Vicente Venegas   | @vichous       | [vvenegas@usm.cl](https://www.youtube.com/watch?v=dQw4w9WgXcQ)          | 202530011-0  |
 
 ---
 
