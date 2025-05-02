@@ -22,12 +22,15 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial* – 2025.
 ## 🎯 Objetivos
 
 - Objetivo general:
-- El objetivo princial del proyecto es innovar en la seguridad fisica de pertenencias
+ El objetivo princial del proyecto es innovar en la seguridad fisica de pertenencias
      aplicando una mejora tecnologica a los candados convencionales con esto logrando un aumento
      en su efectibidad.
 - Objetivos específicos:
-   *Listar objetivos concretos que permitirán alcanzar el objetivo general.
-
+ 1.Coneccion de raspberry pi pico w 2 al wifi, logrando seguir ordenes via wifi
+ 2.Creacion del circuito
+ 3.Creacion de programa para capar y descargar audios para el reconocimiento
+ 4.Coneccion y calibracion de sensores
+ 5.Union de las areas del proyecto  
 ---
 
 ## 🧩 Alcance del proyecto
