@@ -1,0 +1,134 @@
+A continuación, se presentan diferentes algoritmos de codificación PARA OPTIMIZAR EPICO
+
+Codificación de Audio para Análisis Biométrico  
+MFCC (Mel-Frequency Cepstral Coefficients)  (Extraer características espectrales de la voz.)
+
+  ```python
+  import librosa
+  y, sr = librosa.load("voice.ogg", sr=16000)
+  mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13, n_fft=2048, hop_length=512)
+  ```  
+  ```  
+
+PLP (Perceptual Linear Prediction)  
+Ventaja: Modela la percepción auditiva humana mejor que MFCC en entornos ruidosos.  
+
+  ```python
+  from python_speech_features import plp
+  plp_features = plp(y, sr, winlen=0.025, winstep=0.01)
+  ```  
+
+Codificación por Embeddings de Voz (ECAPA-TDNN)**  
+  ```python
+  from speechbrain.pretrained import EncoderClassifier
+  classifier = EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb")
+  embedding = classifier.encode_from_file("voice.ogg")  # Vector de 192 dimensiones
+  ```  
+
+
+Codificación de Datos para Transmisión 
+Protocol Buffers (protobuf)  
+Ventaja: 3x más eficiente que JSON en tamaño y velocidad (en teoría).  
+
+  ```protobuf
+  // archivo .proto
+  message UnlockSignal {
+    required bool unlock = 1;
+    optional string user_id = 2;
+    optional bytes voice_hash = 3;
+  }
+  ```  
+  ```python
+
+  Servidor (Flask)
+
+  import unlock_pb2
+  signal = unlock_pb2.UnlockSignal()
+  signal.unlock = True
+  serialized_data = signal.SerializeToString()  # Enviar esto a la Pico
+  ```  
+
+MessagePack, para Raspberry Pi Pico
+  
+  ```python
+  import umsgpack
+  data = {"unlock": True, "duration": 5}
+  packed = umsgpack.dumps(data)  # 50% más compacto que JSON
+  ```  
+
+Codificación Criptográfica  
+AES-256 (Cifrado Simétrico)  Protege los archivos de voz y vectores MFCC en tránsito.  
+Implementación en MicroPython  
+
+  ```python
+  from ucryptolib import AES
+  key = b'32-byte-long-key-1234567890abcdef'
+  cipher = AES(key, AES.MODE_ECB)
+  encrypted_data = cipher.encrypt(b'open_door_now')
+  ```  
+
+Ed25519 (Firmas Digitales)  
+
+  ```python
+  # Servidor
+  from cryptography.hazmat.primitives.asymmetric import ed25519
+  private_key = ed25519.Ed25519PrivateKey.generate()
+  signature = private_key.sign(b'open_door')  # Adjuntar a la señal
+  ```  
+
+Codificación para Gestión de Errores
+CRC32 (Detección de Corrupción)
+ 
+  ```python
+  import binascii
+  crc = binascii.crc32(open("voice.ogg", "rb").read())
+  ```  
+
+Codificación de Contraseñas Vocales
+Phonetic Hashing (Soundex o Metaphone)  
+
+  ```python
+  from fuzzywuzzy import fuzz
+  similarity = fuzz.ratio("abrelasllavesparawerner", "abrelallavewerner")  # 85% → match
+  ```  
+
+BERT Sentence Embeddings
+
+  ```python
+  from sentence_transformers import SentenceTransformer
+  model = SentenceTransformer('paraphrase-MiniLM-L6-v2')
+  embedding = model.encode("Ábreme la puerta principal para Werner")
+  ```  
+
+Codificación para Optimización de Hardware
+
+(Run-Length Encoding)  
+Almacenar patrones de LED
+
+  ```python
+  def rle_encode(led_sequence):
+      # Ej: [1,1,0,0,0] → "2:1,3:0"
+      return compressed_str
+  ```  
+
+Posibilidades de Implementación
+Usar AES-256 + Ed25519 para datos sensibles.  
+Protobuf/MessagePack en lugar de JSON.  
+Robustez contra ruido: MFCC + Delta + PLP combinados.  
+Bajo consumo en Pico: CRC32.  
+
+```python
+# Ejemplo integrado (Flask + AES + Protobuf)
+from flask import request
+import unlock_pb2
+
+@app.route('/unlock', methods=['POST'])
+def unlock():
+    encrypted_data = request.data
+    decrypted = aes_decrypt(encrypted_data)  # Función AES
+    signal = unlock_pb2.UnlockSignal()
+    signal.ParseFromString(decrypted)
+    if signal.unlock:
+        # Activar lógica de apertura
+Sisisisisiaaaa ahah aha ah ha
+```  
