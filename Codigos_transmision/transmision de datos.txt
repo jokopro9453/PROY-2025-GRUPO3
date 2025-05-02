@@ -1,0 +1,132 @@
+Transmisión de Datos a la Raspberry Pi Pico WwWw
+
+La Raspberry Pi Pico debe estar configurada para conectarse a Internet, usando la biblioteca `urequests` en MicroPython para verificar periódicamente si se ha recibido la señal de apertura (este serie un intervalo de 2-3 segundos mientras se mantenga activa la raspberry por medio de un botón).
+
+Conexión Wi-Fi en la Pico (MicroPython)
+
+```python
+import network
+import time
+
+def conectar_wifi(ssid, password):
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.connect(ssid, password)
+    while not wlan.isconnected():
+        time.sleep(0.5)
+    print("Conectado a Wi-Fi:", wlan.ifconfig())
+    return wlan
+
+# Conectar a la red
+conectar_wifi("EL_SSID", "LA_PASSWORD (del wifi)")
+```
+
+Activación del LED
+
+```python
+import urequests
+import time
+from machine import Pin
+
+LED_PIN = Pin(25, Pin.OUT)  # Conexión del LED en el GPIO 25 (u otro)
+SERVER_URL = 'http://<IP_DEL_SERVIDOR>:5000/unlock_status'  # ver bien la IP y puerto
+
+while True:
+    try:
+        response = urequests.get(SERVER_URL)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get('unlock') is True:
+                # Activar LED para indicar apertura de la cerradura
+                LED_PIN.value(1)
+                time.sleep(5)  # Mantener el LED encendido por 5 segundos
+                LED_PIN.value(0)
+        response.close()
+    except Exception as e:
+        print("Error al verificar el estado:", e)
+    time.sleep(2)  # Consulta cada 2 segundos
+```
+
+Este script configura la Pico para consultar periódicamente el servidor y, si la señal de apertura se recibe, enciende el LED. Es posible mejorar este mecanismo utilizando sockets (ya que la raspberry tiene IP).
+
+Asi seria en sockets:
+
+Conexión Wi-Fi a la raspberrypicoco
+
+import network
+import time
+
+def conectar_wifi(ssid, password):
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.connect(ssid, password)
+    while not wlan.isconnected():
+        time.sleep(0.5)
+    print("Conectado a Wi-Fi:", wlan.ifconfig())
+    return wlan
+
+# Conectar a la red
+conectar_wifi("EL_SSID", "LA_PASSWORD (del wifi)")
+
+Activación del LED utilizando Sockets
+
+import socket
+import time
+from machine import Pin
+
+LED_PIN = Pin(25, Pin.OUT)  # Conexión del LED en el GPIO 25 (u otro)
+SERVER_IP = '<IP_DEL_SERVIDOR>'  # IP del servidor
+SERVER_PORT = 5000  # Puerto del servidor
+
+# Crear un socket
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+# Conectar al servidor
+sock.connect((SERVER_IP, SERVER_PORT))
+
+# Enviar un mensaje de conexión inicial (opcional)
+sock.send(b'Conectado a la Raspberry Pi Pico')
+
+while True:
+    try:
+        # Esperar a recibir datos del servidor
+        data = sock.recv(1024)  # Tamaño del buffer de recepción
+        if data:
+            message = data.decode('utf-8')
+            if message == 'abrir':
+                # Activar LED para indicar apertura de la cerradura
+                LED_PIN.value(1)
+                time.sleep(5)  # Mantener el LED encendido por 5 segundos
+                LED_PIN.value(0)
+    except Exception as e:
+        print("Error al recibir datos:", e)
+        break
+
+# Cerrar el socket al finalizar
+sock.close()
+
+El socket se conecta al servidor especificando la IP y el puerto. El código utiliza sock.recv(1024) para recibir datos del servidor. El tamaño del buffer puede ajustarse según lo que se quiera hacer.
+
+Implementación del Servidor
+Con un ejemplo de cual podría ser el código de apruebo o algo asi:
+
+import socket
+
+# Configuración del servidor
+server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server_socket.bind(('<IP_DEL_SERVIDOR>', 5000))
+server_socket.listen(1)
+
+print("Esperando conexión de la Raspberry Pi Pico...")
+conn, addr = server_socket.accept()
+print("Conectado a:", addr)
+
+while True:
+    # Aquí puedes agregar la lógica para determinar cuándo enviar la señal de apertura
+    # Por ejemplo, después de una autenticación exitosa
+    conn.send(b'abrir')  # Enviar señal de apertura
+    break  # Salir del bucle después de enviar la señal
+
+# Cerrar la conexión
+conn.close()
+server_socket.close()
