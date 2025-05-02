@@ -63,7 +63,7 @@ Este dispositivo tendrá un alcance medio basado en la conexión wifi del dispos
 
 ## 🧪 Metodología
 
-> *Describir la metodología de desarrollo del proyecto (ágil, en cascada, prototipado, etc.). También puedes incluir el flujo de trabajo con Git (feature branches, pull requests, etc.).*
+> La metodología de este proyecto se basa en la división de tareas por área para un progreso eficiente, para lograr las diferentes metas que finalmente arman el proyecto completo, todo esto siguiendo los tiempos y las tareas asignadas en la carta Gantt. 
 
 ---
 
