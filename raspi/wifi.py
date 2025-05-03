@@ -1,9 +1,8 @@
 import network
 import utime
 from machine import Pin
-led = Pin(22,Pin.OUT)
-ssid = 'Interne'
-password = '22222222'
+ssid = 'SSID'
+password = "PASSWD"
 
 def connect():
     #Connect to WLAN
@@ -14,10 +13,5 @@ def connect():
         print('Waiting for connection...')
         utime.sleep(1)
     print(wlan.ifconfig())
-    while(True):
-        led.value(1)
-        utime.sleep(1)
-        led.value(0)
-        utime.sleep(1)
 
 connect()
