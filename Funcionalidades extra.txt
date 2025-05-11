@@ -30,3 +30,8 @@ notificando al servidor principal de los intentos fallidos y ponerlo como aviso 
 Hacer que abra un candado de verdad en vez de encender un led. O encender una lampara o algo asi.
 
 Implementar un sistema SQLite o algún cifrado para mejorar la ciberseguridad del proceso.
+
+Añadir un telefono de emergencia en caso de que el candado trate de ser forcado o tenga demasiados intentos fallidos.
+
+Hacer alguna interfaz en el bot, o alguna pagina web para soportar los comandos y simplificar el registro y uso por medio 
+de claves unicas unidas a la raspberry.
