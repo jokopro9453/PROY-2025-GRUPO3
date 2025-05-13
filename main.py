@@ -3,7 +3,7 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Con
 from telegram.ext import MessageHandler
 from dotenv import load_dotenv
 from fuzzywuzzy import fuzz
-import test_reduction as antinoise
+import noise_delete as antinoise
 import speechtotxt as userpass
 import verificacion as encode
 import os, requests, json, random
@@ -70,8 +70,8 @@ async def audio_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
         similitud_pass = fuzz.ratio(str1,str2)
         print(fuzz.ratio(str1,str2))
         if similitud_audio > 0.6 and similitud_pass > 0.6:
-            #response = requests.get(url)
-            #print("LED encendido:", response.text)
+            response = requests.get(url)
+            print("LED encendido:", response.text)
             print("Se ha abiero la cerradura.")
             await update.message.reply_text("¡Su cerradura se ha abierto exitosamente!")
 
