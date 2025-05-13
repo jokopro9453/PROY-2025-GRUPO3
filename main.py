@@ -3,16 +3,15 @@ from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, Con
 from telegram.ext import MessageHandler
 from dotenv import load_dotenv
 from fuzzywuzzy import fuzz
+import test_reduction as antinoise
 import speechtotxt as userpass
 import verificacion as encode
-import os
-import requests
-import json
-import random
+import os, requests, json, random
+
 with open('palabras.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 palabras = data['palabras']
-
+#Cambia la contraseña
 def rpass():
     passwd = random.choice(palabras)
     return passwd
@@ -21,17 +20,21 @@ def rpass():
 load_dotenv()
 TELE_API = os.getenv("TELEGRAM_API")
 
-# Elige una palabra de la base de datos
+# Elige una palabra de la base de  datos
 
 
 # Url de la raspi
-url = "http://192.168.45.32/led/on"
+url = "http://192.168.93.32/led/on"
+#url2= "http://192.168.43.32/led/off"
 
 # Carpetas
-audios_prueba = "audios_prueba"
+audios = "audios"
 audios_recibidos = "audios_recibidos"
-os.makedirs(audios_prueba, exist_ok=True)
+os.makedirs(audios, exist_ok=True)
 os.makedirs(audios_recibidos, exist_ok=True)
+
+
+
 
 # Iniciar con el comando /start
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -39,28 +42,37 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['passwd'] = passwd
     await update.message.reply_text(f"¡Hola! Tu contraseña de un solo uso es >> {passwd} <<. ¡Ahora envía un mensaje de voz!")
     
+#async def cerrar(update: Update, context: ContextTypes.DEFAULT_TYPE):
+ #   response = requests.get(url2)
+  #  print(response)
+   # return None
 
 
+   
 # Control de auidio
 async def audio_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):    
     try:
         file_path = os.path.join(audios_recibidos, "Audio_recibido.wav")
         if os.path.exists(file_path):
             os.remove(file_path)
+        file_path = os.path.join(audios_recibidos, "Audio_recibido.ogg")
+        if os.path.exists(file_path):
+            os.remove(file_path)
 
         file = await context.bot.get_file(update.message.voice.file_id)
         await file.download_to_drive(file_path)
-        await update.message.reply_text("Su audio ha sido recibido, muchas gracias culón 😘💓")
-        
+        await update.message.reply_text("Su audio ha sido recibido.")
+        antinoise.limpiar_audio()
         upass = userpass.convert_to_text()
         str1 = upass
         str2 = context.user_data.get('passwd', '')
-        similitud_audio = encode.comparar_audios(audios_prueba, audios_recibidos)
+        similitud_audio = encode.comparar_audios(file_path)
         similitud_pass = fuzz.ratio(str1,str2)
         print(fuzz.ratio(str1,str2))
-        if similitud_audio > 0.7 and similitud_pass > 0.8:
-            response = requests.get(url)
-            print("LED encendido:", response.text)
+        if similitud_audio > 0.6 and similitud_pass > 0.6:
+            #response = requests.get(url)
+            #print("LED encendido:", response.text)
+            print("Se ha abiero la cerradura.")
             await update.message.reply_text("¡Su cerradura se ha abierto exitosamente!")
 
         else:
