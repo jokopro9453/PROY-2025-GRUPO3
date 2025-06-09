@@ -6,7 +6,8 @@ from fuzzywuzzy import fuzz
 import noise_delete as antinoise
 import speechtotxt as userpass
 import verificacion as encode
-import os, requests, json, random
+import os, requests, json, random, time
+
 
 with open('palabras.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
@@ -24,7 +25,7 @@ TELE_API = os.getenv("TELEGRAM_API")
 
 
 # Url de la raspi
-url = "http://192.168.93.32/led/on"
+url = "http://192.168.73.32/led/on"
 #url2= "http://192.168.43.32/led/off"
 
 # Carpetas
@@ -42,13 +43,6 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['passwd'] = passwd
     await update.message.reply_text(f"¡Hola! Tu contraseña de un solo uso es >> {passwd} <<. ¡Ahora envía un mensaje de voz!")
     
-#async def cerrar(update: Update, context: ContextTypes.DEFAULT_TYPE):
- #   response = requests.get(url2)
-  #  print(response)
-   # return None
-
-
-   
 # Control de auidio
 async def audio_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):    
     try:
@@ -69,8 +63,32 @@ async def audio_bot(update: Update, context: ContextTypes.DEFAULT_TYPE):
         similitud_audio = encode.comparar_audios(file_path)
         similitud_pass = fuzz.ratio(str1,str2)
         print(fuzz.ratio(str1,str2))
-        if similitud_audio > 0.6 and similitud_pass > 0.6:
+        if similitud_audio > 0.69 and similitud_pass > 0.6:
             response = requests.get(url)
+            if response.text != "<html><body><h1>LED: OFF</h1></body></html>":
+                response = requests.get(url)
+                time.sleep(1)
+                if response.text != "<html><body><h1>LED: OFF</h1></body></html>":
+                    response = requests.get(url)
+                    time.sleep(1)
+                    if response.text != "<html><body><h1>LED: OFF</h1></body></html>":
+                        response = requests.get(url)
+                        time.sleep(1)
+                        if response.text != "<html><body><h1>LED: OFF</h1></body></html>":
+                            response = requests.get(url)
+                            time.sleep(1)
+                            if response.text != "<html><body><h1>LED: OFF</h1></body></html>":
+                                response = requests.get(url)
+                                time.sleep(1)
+                                if response.text != "<html><body><h1>LED: OFF</h1></body></html>":
+                                    response = requests.get(url)
+                                    time.sleep(1)
+                                    if response.text != "<html><body><h1>LED: OFF</h1></body></html>":
+                                        response = requests.get(url)
+                                        time.sleep(1)
+                                        if response.text != "<html><body><h1>LED: OFF</h1></body></html>":
+                                            response = requests.get(url)
+                                            time.sleep(1)
             print("LED encendido:", response.text)
             print("Se ha abiero la cerradura.")
             await update.message.reply_text("¡Su cerradura se ha abierto exitosamente!")
