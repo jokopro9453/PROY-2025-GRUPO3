@@ -4,16 +4,16 @@ import numpy as np
 
 def comparar_audios(target_audio, folder_audios="audios_verificacion"):
     carpeta_audios = Path(folder_audios)
-    # Validar existencia de la carpeta principal
+    #Validar existencia de la carpeta principal
     if not carpeta_audios.exists() or not carpeta_audios.is_dir():
         raise FileNotFoundError(f"La carpeta '{folder_audios}' no existe o no es un directorio")
     
-    # Obtener subcarpetas dentro de 'audios'
+    #Obtener subcarpetas dentro de 'audios'
     subcarpetas = [carp for carp in carpeta_audios.iterdir() if carp.is_dir()]
     if not subcarpetas:
         raise FileNotFoundError(f"No se encontraron subcarpetas en '{folder_audios}'")
 
-    # Procesar el audio objetivo
+    #Procesar el audio objetivo
     try:
         wav_target = preprocess_wav(target_audio)
     except Exception as e:
@@ -25,12 +25,12 @@ def comparar_audios(target_audio, folder_audios="audios_verificacion"):
         raise RuntimeError(f"Error al generar embedding del audio objetivo: {e}")
     
     mayor_sim = None
-    # Extensiones de archivos de audio a considerar
+    #Extensiones de archivos de audio a considerar
     exts = {".wav", ".mp3", ".flac", ".ogg", ".m4a", ".aac", ".wma"}
     
-    # Iterar por cada subcarpeta
+    #Buscar por cada subcarpeta
     for carpeta in subcarpetas:
-        # Listar archivos de audio válidos en la carpeta
+        #Listar archivos de audio válidos en la carpeta
         audios = [f for f in carpeta.iterdir() 
                   if f.is_file() and f.suffix.lower() in exts]
         if not audios:
@@ -44,7 +44,7 @@ def comparar_audios(target_audio, folder_audios="audios_verificacion"):
             except Exception:
                 # Saltar archivos que no se puedan procesar
                 continue
-            # Similaridad = producto punto (vectores normalizados)
+            # Similaridad
             sim = float(np.dot(emb_target, emb))
             similitudes.append(sim)
         

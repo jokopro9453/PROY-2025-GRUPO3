@@ -1,0 +1,17 @@
+fuzzywuzzy==0.18.0
+joblib==1.4.2
+librosa==0.11.0
+machine==0.0.1
+matplotlib==3.10.3
+network==0.1
+numpy==2.3.0
+python-dotenv==1.1.0
+python-telegram-bot==22.1
+Requests==2.32.4
+scipy==1.15.3
+soundfile==0.13.1
+torch==2.7.0+cu118
+torch==2.7.0
+tqdm==4.67.1
+utime==1.1.7
+webrtcvad==2.0.10
