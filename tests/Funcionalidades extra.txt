@@ -1,0 +1,37 @@
+Ideas para añadir
+
+Mas comandos para mas usos, como /user para registrar un nombre de usuario con el cual se referirá al usuario especifico 
+según su MAC (además se registra la MAC, lo que hace que solo un dispositivo pueda abrir el candado), 
+/password por si el usuario quiere usar un sistema de contraseña establecida en vez de una adquirida del json, 
+/passwordrandom por si quiere volver a sacar contraseñas del json, todos los códigos deben tener un manejo de errores 
+para que al volver a ponerlos funcionen para reemplazar configuraciones anteriores. 
+
+Creación de logs, cada audio que llegue se adjudicara a un usuario y tendrá la fecha, hora y minuto de cuando se envío, 
+que fue lo que dijo, que porcentajes obtuvo, etc. Después esa información se podrá ver si se le pide al bot /logs (del dia,
+semana, mes), la función solo estará disponible por 5 minutos después de que abra el candado.
+
+Una función como logs pero para añadir otro usuario, con /userplus se activa por 5 minutos la opción de que otra 
+persona en otro dispositivo haga /user para que se registre su nombre y su MAC. Al añadir el otro usuario también 
+añadir un sistema de entrenamiento de voz con unas 5 muestras. También se debe configurar el server para que no 
+explote al procesar 2 solicitudes para el mismo candado al mismo tiempo.
+
+Un sensor para detectar si el candado esta abierto o cerrado, para que avise cuando se deje abierto mucho tiempo y 
+evitando bloquear el candado, puede ser hecho con un interruptor magnético que registre periódicamente si esta cerca 
+o lejos un objeto que diga que esta abierto.
+
+En caso de no haber wifi y no tener la tarjeta rfid, se puede hacer una interfaz local con un servidor flask en la 
+raspberry pi para hacer el proceso desde la misma placa de hardware.
+
+Programar un horario de acceso con un comando /time, con bibliotecas como schedule de Python.
+
+Bloquear el acceso cada 5 intentos fallidos por unos 5 minutos e ir aumentando en base de mas intentos fallidos, 
+notificando al servidor principal de los intentos fallidos y ponerlo como aviso de seguridad.
+
+Hacer que abra un candado de verdad en vez de encender un led. O encender una lampara o algo asi.
+
+Implementar un sistema SQLite o algún cifrado para mejorar la ciberseguridad del proceso.
+
+Añadir un telefono de emergencia en caso de que el candado trate de ser forcado o tenga demasiados intentos fallidos.
+
+Hacer alguna interfaz en el bot, o alguna pagina web para soportar los comandos y simplificar el registro y uso por medio 
+de claves unicas unidas a la raspberry.

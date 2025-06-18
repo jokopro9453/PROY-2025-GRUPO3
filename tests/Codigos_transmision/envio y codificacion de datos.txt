@@ -1,0 +1,143 @@
+El sistema se compone de varios módulos interconectados:
+
+-Bot de Telegram: Se utiliza para recibir comandos de voz, con este se descargará el archivo de voz.
+-Análisis de Voz: Una inteligencia artificial extraerá características (por ejemplo, los coeficientes MFCC) del audio recibido y las comparará con registros almacenados en una base de datos (como 20 pistas de audio, y 1 voz, 2 o + es mucho webeo). Se considerará válida la autenticación si la similitud es del 85% o superior.
+También se integrará el que se transcriba la frase dicha a texto para ver que coincide con la contraseña prevista en el candado.
+- Servidor de Integración: Un servidor (configurado con Flask o FastAPI) recibe la validación y transmite una señal de "apertura" a la Raspberry Pi Pico (una línea de código especifico).
+- Raspberry Pi Pico: Este módulo se conecta mediante Wi-Fi, espera la señal de apertura y activa un LED conectado al GPIO para indicar que la cerradura se ha abierto.
+
+Configuración del Bot de Telegram (Parte para saltar)
+
+Hay que tener el bot con el nombre, el username y obtén el token de acceso.
+
+Configurar el webhook para recibir mensajes y archivos de voz, con una herramienta en línea o programáticamente con una solicitud HTTPS, tipo:
+
+   ```bash
+   curl -F "url=https://mi-servidor.com/webhook" https://api.telegram.org/bot<EL_TOKEN>/setWebhook
+   ```
+Implementación en Python con `python-telegram-bot`
+
+```python
+from telegram import Update
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters, CallbackContext
+
+TOKEN = 'EL_TOKEN_AQUI'
+
+def start(update: Update, context: CallbackContext):
+    update.message.reply_text("Bienvenido al sistema de cerradura inteligente.")
+
+def voice_handler(update: Update, context: CallbackContext):
+    voice = update.message.voice
+    file_id = voice.file_id
+    new_file = context.bot.get_file(file_id)
+    file_path = "voice_message.ogg"
+    new_file.download(file_path)
+    update.message.reply_text("Archivo de voz recibido. Procesando autenticación...")
+    
+    # Llamar a la función de análisis (después se le añade código para poner un audio)
+    if analizar_voz(file_path):
+        update.message.reply_text("Acceso concedido. Cerradura abierta para Werner.")
+        # Aquí se puede invocar la señal al servidor para la apertura real
+        enviar_senal_apertura()
+    else:
+        update.message.reply_text("Acceso denegado.")
+
+def main():
+    updater = Updater(TOKEN)
+    dp = updater.dispatcher
+    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(MessageHandler(Filters.voice, voice_handler))
+    updater.start_polling()  # O start_webhook() si se usa un webhook
+    updater.idle()
+
+if __name__ == '__main__':
+    main()
+```
+
+Un script para descargar el audio (ya se hizo)
+```bash
+pip install python-telegram-bot
+```
+
+Análisis del Archivo de Voz
+
+El análisis de la voz es esencial para autenticar al usuario. Se puede abordar utilizando bibliotecas de procesamiento de audio como `pydub` o `librosa`.
+
+Un ejemplo usando `librosa` para extraer los coeficientes MFCC, para el reconocimiento de voz:
+
+```python
+import librosa
+import numpy as np
+
+def extraer_caracteristicas(file_path: str):
+    y, sr = librosa.load(file_path, sr=None)
+    # Extracción de 13 coeficientes MFCC
+    mfccs = librosa.feature.mfcc(y=y, sr=sr, n_mfcc=13)
+    # Se calcula la media de cada coeficiente para obtener un vector representativo
+    caracteristicas = np.mean(mfccs, axis=1)
+    return caracteristicas
+```
+Utilizar una medida de similitud (por ejemplo, la similitud coseno) y compara el vector obtenido con aquellos almacenados en la base de datos.
+
+```python
+def similitud_coseno(v1, v2):
+    dot = np.dot(v1, v2)
+    norm1 = np.linalg.norm(v1)
+    norm2 = np.linalg.norm(v2)
+    return dot / (norm1 * norm2)
+
+def comparar_con_registro(caracteristicas_extraidas, caracteristicas_registradas, umbral=0.85):
+    similitud = similitud_coseno(caracteristicas_extraidas, caracteristicas_registradas)
+    return similitud >= umbral
+```
+
+
+Integrar la extracción y comparación en una única función:
+
+```python
+def analizar_voz(file_path: str) -> bool:
+    caracteristicas_entrada = extraer_caracteristicas(file_path)
+    
+    caracteristicas_registradas = obtener_caracteristicas_registradas()  
+    
+    return comparar_con_registro(caracteristicas_entrada, caracteristicas_registradas)
+```
+
+Comunicación con el Servidor
+
+Cuando se verifique que la voz y la contraseña son válidas (similitud ≥ 85%), se debe enviar una señal de apertura a la Raspberry Pi Pico. 
+
+```python
+from flask import Flask, request, jsonify
+
+app = Flask(__name__)
+
+# Endpoint que recibe la solicitud de apertura
+@app.route('/unlock', methods=['POST'])
+def unlock():
+    data = request.get_json()
+    if data.get('access') == 'granted':
+        # Aquí se puede actualizar un estado que la Raspberry Pi Pico consulta o emitir una notificación
+        actualizar_estado_apertura(True)
+        return jsonify({"status": "signal sent"}), 200
+    return jsonify({"status": "access denied"}), 401
+
+# Endpoint para que la Raspberry Pi Pico verifique el estado de la cerradura
+@app.route('/unlock_status', methods=['GET'])
+def unlock_status():
+    estado = obtener_estado_apertura()  # Función que retorna el estado actual de la cerradura
+    # Una vez enviado el estado, se puede restablecer para futuras verificaciones
+    if estado:
+        actualizar_estado_apertura(False)
+    return jsonify({"unlock": estado}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+```
+
+Instalar Flask:  
+```bash
+pip install flask
+```
+
+La función `actualizar_estado_apertura` y `obtener_estado_apertura` se pueden implementar utilizando variables globales o, mediante un mecanismo de almacenamiento en caché o base de datos (es más mejor).

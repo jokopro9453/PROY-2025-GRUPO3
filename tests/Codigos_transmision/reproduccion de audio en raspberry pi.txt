@@ -1,0 +1,192 @@
+Implementación de audio en la Raspberry Pi Pico
+Configuración del servidor (Flask):
+# server.py
+from flask import Flask, jsonify
+
+app = Flask(__name__)
+processing = False
+unlock_status = False
+
+@app.route('/processing_start', methods=['POST'])
+def start_processing():
+    global processing
+    processing = True
+    return jsonify({"status": "processing"}), 200
+
+@app.route('/processing_status', methods=['GET'])
+def get_processing():
+    global processing
+    return jsonify({"processing": processing}), 200
+
+@app.route('/unlock', methods=['POST'])
+def unlock():
+    global unlock_status, processing
+    processing = False
+    unlock_status = True if request.json.get('access') == 'granted' else False
+    return jsonify({"status": "success"}), 200
+
+@app.route('/unlock_status', methods=['GET'])
+def get_unlock():
+    global unlock_status
+    return jsonify({"unlock": unlock_status}), 200
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000)
+
+Modificaciones en el Bot de Telegram:
+
+# bot.py (fragmento)
+import requests
+
+def voice_handler(update: Update, context: CallbackContext):
+    # ... Descargar audio ...
+    requests.post('http://[IP_SERVIDOR]:5000/processing_start')
+    if analizar_voz(file_path):
+        requests.post('http://[IP_SERVIDOR]:5000/unlock', json={'access': 'granted'})
+    else:
+        requests.post('http://[IP_SERVIDOR]:5000/unlock', json={'access': 'denied'})
+
+Código en la Raspberry Pi Pico (MicroPython):
+
+# main.py
+from machine import UART, Pin, PWM
+import network
+import urequests
+import time
+
+# Configuración Wi-Fi
+def connect_wifi():
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.connect("[SSID]", "[PASSWORD]")
+    while not wlan.isconnected():
+        time.sleep(0.5)
+    print("Conectado:", wlan.ifconfig())
+
+# Configuración TTS SYN6288
+uart = UART(0, baudrate=9600, tx=Pin(0))
+led = Pin(25, Pin.OUT)
+buzzer = PWM(Pin(22))  # Buzzer para sonido de espera
+
+def tts_speak(text):
+    cmd = bytearray([0xFD, 0x00, 0x00, 0x01, 0x00])
+    cmd.extend(text.encode('GB2312'))
+    cmd[1] = len(cmd) - 2
+    checksum = sum(cmd[2:]) & 0xFF
+    cmd.append(checksum)
+    uart.write(cmd)
+    time.sleep(len(text)*0.5)  # Ajustar según duración
+
+def play_waiting():
+    buzzer.freq(1000)
+    buzzer.duty_u16(32768)
+    time.sleep(0.5)
+    buzzer.duty_u16(0)
+    time.sleep(0.5)
+
+def main():
+    connect_wifi()
+    server_url = "http://[IP_SERVIDOR]:5000"
+    
+    while True:
+        try:
+            #
+Aunque este código no creo que sirva ya que esta configurado para usare un módulo tts externo, así que aquí hay mas código:
+
+Configuración del Servidor (Flask):
+
+# server.py
+from flask import Flask, send_file, jsonify
+
+app = Flask(__name__)
+processing = False
+unlock_status = False
+
+@app.route('/audio/<filename>')
+def get_audio(filename):
+    return send_file(f"audios/{filename}", mimetype="audio/ogg")
+
+@app.route('/processing_status')
+def get_processing():
+    return jsonify({"processing": processing})
+
+# ... (resto de endpoints del sistema)
+
+Código en la Raspberry Pi Pico (MicroPython):
+
+# main.py
+import network
+import urequests
+from machine import Pin, PWM
+import time
+import urandom
+
+# Configuración WiFi
+def connect_wifi():
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.connect("SSID", "PASSWORD")
+    while not wlan.isconnected():
+        time.sleep(0.5)
+    print("IP:", wlan.ifconfig())
+
+# Configuración de audio
+speaker = PWM(Pin(15))
+led = Pin(25, Pin.OUT)
+server_url = "http://[IP_SERVIDOR]:5000"
+
+def play_streaming_audio(filename):
+    try:
+        response = urequests.get(f"{server_url}/audio/{filename}")
+        audio_data = response.content
+        
+        # Simulación de reproducción (adaptar según hardware)
+        for _ in range(1000):  # Bucle limitado por memoria
+            speaker.duty_u16(urandom.getrandbits(16))
+            time.sleep_us(100)
+        speaker.duty_u16(0)
+        
+    except Exception as e:
+        print("Error audio:", e)
+
+def main():
+    connect_wifi()
+    
+    while True:
+        # Verificar estado de procesamiento
+        processing = urequests.get(f"{server_url}/processing_status").json()["processing"]
+        
+        if processing:
+            play_streaming_audio("sonido_espera_michirojas.ogg")
+        else:
+            # Verificar resultado de autenticación
+            status = urequests.get(f"{server_url}/unlock_status").json()
+            if status["unlock"]:
+                play_streaming_audio("sonido_aprobado.ogg")
+                led.value(1)
+                time.sleep(5)
+                led.value(0)
+            else:
+                play_streaming_audio("sonido_denegado.ogg")
+        
+        time.sleep(2)
+
+if __name__ == "__main__":
+    main()
+
+Pasos de implementación:
+Preparar archivos de audio:
+Convertir los archivos a formato OGG de baja calidad (8kHz, mono)
+Subirlos al servidor en la carpeta /audios
+Optimización de audio:
+# Usando FFmpeg (en servidor)
+ffmpeg -i input.wav -ar 8000 -ac 1 output.ogg
+
+Circuito de audio:
+Conectar altavoz pasivo a GPIO15 mediante circuito amplificador (Ej: LM386)
+Configurar PWM para salida de audio (frecuencia 8kHz)
+Mejoras de eficiencia:
+Usar formato WAV de 8-bit sin cabecera para reducir procesamiento (mejor para la raspy)
+Implementar buffer circular para manejo de memoria
+
+En cualquier caso seria mas fácil si simplemente usamos una tarjeta sd con los datos de la raspberry y audios ahí.
