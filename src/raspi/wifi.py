@@ -1,8 +1,8 @@
 import network
 import utime
 from machine import Pin
-ssid = 'SSID'
-password = "PASSWD"
+ssid = 'Tu SSID'
+password = 'Tu PASS'
 
 def connect():
     #Connect to WLAN

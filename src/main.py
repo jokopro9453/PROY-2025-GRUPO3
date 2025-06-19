@@ -25,8 +25,7 @@ TELE_API = os.getenv("TELEGRAM_API")
 
 
 # Url de la raspi
-url = "http://192.168.73.32/led/on"
-#url2= "http://192.168.43.32/led/off"
+url = "Tu URL"
 
 # Carpetas
 audios = "audios"
