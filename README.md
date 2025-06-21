@@ -2,6 +2,8 @@
 
 Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial* – 2025.
 
+---
+
 ## 👥 Integrantes del grupo
 
 | Nombre y Apellido | Usuario GitHub | Correo USM                                                              | Rol          |
@@ -13,43 +15,49 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial* – 2025.
 
 ---
 
-## 📝 Descripción breve del proyecto
+## 📝 Descripción del proyecto
 
-> *Una cerradura con un sistema de desbloqueo basado en reconocimiento de entidad bajo su voz*
+*V-Lock es un innovador conjunto de herramientas para desarrolladores que integra reconocimiento de voz, reducción de ruido y control de dispositivos IoT (Internet of things) para la creación de sistemas seguros activados por voz. Este sistema integra diversas funciones, como el procesamiento de voz, la verificación de hablantes nativos y la gestión de dispositivos inalámbricos, en una única plataforma cohesiva diseñada para soluciones de seguridad inteligentes.*
 
+### ¿Porque V-Lock?
+este proyecto apunta a agilizar el desarrollo de aplicaciones de seguridad y automatización basadas en la voz. Entre sus características más notables, cabe destacar las siguientes:
+
+- Verificacion por voz: se implementa un proceso riguroso de identificación y autenticación del hablante para garantizar la seguridad del acceso.
+- Reduccion de ruido: se implementan técnicas de limpieza de audio para garantizar la claridad de los comandos de voz en entornos ruidosos.
+- Transcripcion voz a texto: sistema de transcripción automatizada para una interacción de voz fluida y eficiente.
+- Integración de hardware: Fácil control de dispositivos IoT como una Raspberry pi pico w para la gestión remota de dispositivos
+- Lector RFID: se instala un sensor RFID al dispositivo para garantizar su funcionamiento sin conexión a internet.
+- Arquitectura modular: Componentes escalables diseñados para una implementación y personalización flexibles.
 ---
 
 ## 🎯 Objetivos
 
 - Objetivo general:
- El objetivo princial del proyecto es innovar en la seguridad fisica de pertenencias
-     aplicando una mejora tecnologica a los candados convencionales con esto logrando un aumento
-     en su efectibidad.
+ El objetivo principal del proyecto es innovar en la seguridad fisica de pertenencias aplicando una mejora tecnologica a los sistemas convencionales,logrando un aumento en su efectibidad.
 - Objetivos específicos:
- 1.Coneccion de raspberry pi pico w 2 al wifi, logrando seguir ordenes via wifi
- 2.Creacion del circuito
- 3.Creacion de programa para capar y descargar audios para el reconocimiento
- 4.Coneccion y calibracion de sensores
- 5.Union de las areas del proyecto  
+  - Conexión de raspberry pi pico w 2 a wifi
+  - Creacion del circuito
+  - Creacion de programa para detectar y descargar audios para el reconocimiento
+  - Conexión y calibracion de sensores
+  - Union de las areas del proyecto
 ---
 
 ## 🧩 Alcance del proyecto
 
-> El candado podrá ser una línea de defensa para distintos dispositivos con los que se puede contactar inalámbricamente, como una caja o una puerta con una cerradura basada en comunicación wifi, además de ser mucho más personal y difícil de plagiar, tendrá una seguridad basada en el dispositivo personal electrónico (teléfono), clave, y reconocimiento de voz.
-Este dispositivo tendrá un alcance medio basado en la conexión wifi del dispositivo y del teléfono.
+V-Lock constituye una solución de protección adicional para una amplia gama de entornos, adaptándose a las necesidades específicas de cada situación, como la apertura de puertas o portones. Dentro de los principales inconvenientes que se plantean entra la alimentacion de electricidad al sistema, la cual puede complicarse en algunos contextos, y la necesidad de disponer de una red wifi y un dispositivo con acceso a Telegram para garantizar su funcionamiento, cosa que solucionamos con la implementacion de un lector RFID.
 
 ---
 
 ## 🛠️ Tecnologías y herramientas utilizadas
 
 - Lenguaje(s) de programación:
-  - Ej: Python, JavaScript, C++
+  - Python, Micropython
 - Microcontroladores
   - Raspberry Pi Pico W 2
 - Sensores
+  - RFID-RC522
 
 ---
-
 ## 🗂️ Estructura del repositorio
 
 ```
@@ -58,33 +66,74 @@ Este dispositivo tendrá un alcance medio basado en la conexión wifi del dispos
 ├── docs/               # Documentación general y reportes
 ├── src/                # Código fuente del proyecto
 ├── tests/              # Casos de prueba
-├── assets/             # Imágenes, diagramas, etc.
 └── README.md           # Este archivo
+```
+---
+## ⚙ Instalacion Raspberry pi pico w 2
+
+#### Paso 1: Recrear el circuito de la Raspberry pi pico w 2
+*El Circuito se encuentra en la siguiente foto:*
+
+![Diagrama del circuito](/docs/Diagrama_circuito.jpeg)
+[Mas informacion del circuito](/docs/Circuito%20y%20conexiones.pdf)
+*Con resistencia a convenir nos referimos a el lugar donde va conectado el dispositivo que recibe la señal electrica, en el caso de ejemplo, usamos un diodo LED*
+
+#### Paso 2: Conectar la Raspberry al puerto USB
+
+#### Paso 3: [Descarga Thonny](https://thonny.org/)
+ 
+#### Paso 5: Configura Thonny a tu Raspberry
+[Guia de configuracion](https://core-electronics.com.au/guides/how-to-setup-a-raspberry-pi-pico-and-code-with-thonny/)
+*El archivo de firmware lo encontraras:* [aqui](https://github.com/jokopro9453/PROY-2025-GRUPO3/blob/main/src/raspi/mp_firmware_unofficial_latest.uf2)
+
+#### Paso 6: Carga los archivos de src/raspi/ a la Raspberry
+[Aqui los archivos](https://github.com/jokopro9453/PROY-2025-GRUPO3/tree/main/src/raspi)
+
+#### Paso 7: Configura tus credenciales de wifi
+
+#### Paso 8: Inicia la ejecucion de el codigo
+---
+
+## 🔧 Instalacion Servidor Host
+
+#### Paso 1: Clonar el repositorio
+```bash
+git clone https://github.com/jokopro9453/PROY-2025-GRUPO3
+cd PROY-2025-GRUPO3
+```
+#### Paso 2: Crear entorno virtual (opcional)
+```bash
+python -m venv venv
+source venv/bin/activate  # En Windows: venv\Scripts\activate
+```
+#### Paso 3: Instalar dependencias
+```bash
+pip install -r requirements.txt
+```
+#### Paso 4: Configurar variables de entorno
+```bash
+cd src
+cp .env.example .env
+```
+*Aqui debes ingresar los tokens de API necesarios(Bot Telegram, Assembly)*
+#### Paso 5: Configura la ip de la Raspberry en main.py
+
+#### Paso 6: Ejecutar la aplicación
+```bash
+python main.py
 ```
 
 ---
-
 ## 🧪 Metodología
 
 > La metodología de este proyecto se basa en la división de tareas por área para un progreso eficiente, para lograr las diferentes metas que finalmente arman el proyecto completo, todo esto siguiendo los tiempos y las tareas asignadas en la carta Gantt. 
 
----
 
+---
 ## 📅 Cronograma de trabajo
 
-
-[Carta Gantt](https://app.clickup.com/90131083352/v/g/2ky3pc2r-253)
-
-[Lista de ideas](https://docs.google.com/document/d/1H04pHTeRgPucYQC7QoLWkJQStULg_HhaoTz3SgJk1dU/edit?usp=sharing)
-
+[Carta Gantt](https://github.com/jokopro9453/PROY-2025-GRUPO3/blob/f0c69187953bafe6986e80a4990b6b98f9f3f9c5/docs/Carta_Gantt.xlsx)
 ---
-
 ## 📚 Bibliografía
 
 [Enlace](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
-
----
-
-## 📌 Notas adicionales
-
-> *Espacio para dejar cualquier comentario útil, como pendientes, acuerdos del grupo, consideraciones especiales, etc.*
