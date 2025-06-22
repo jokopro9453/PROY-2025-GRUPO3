@@ -137,6 +137,7 @@ python main.py
 ---
 ## 📚 Bibliografía
 
-ComputadorasySensores. (s.f.). *Capitulo70* [Repositorio en GitHub]. GitHub. [Enlace] (https://github.com/ComputadorasySensores/Capitulo70)
-Carglglz. (s.f.). *NFC_PN532_SPI* [Repositorio en GitHub]. GitHub. [Enlace] (https://github.com/Carglglz/NFC_PN532_SPI)
+ComputadorasySensores. (s.f.). *Capitulo70* [Repositorio en GitHub](https://github.com/ComputadorasySensores/Capitulo70)
+
+Carglglz. (s.f.). *NFC_PN532_SPI* [Repositorio en GitHub](https://github.com/Carglglz/NFC_PN532_SPI)
 
