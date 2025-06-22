@@ -52,9 +52,9 @@ V-Lock constituye una solución de protección adicional para una amplia gama de
 
 - Lenguaje(s) de programación:
   - Python, Micropython
-- Microcontroladores
+- Microcontroladores:
   - Raspberry Pi Pico W 2
-- Sensores
+- Sensores:
   - RFID-RC522
 
 ---
@@ -76,6 +76,7 @@ V-Lock constituye una solución de protección adicional para una amplia gama de
 
 ![Diagrama del circuito](/docs/Diagrama_circuito.jpeg)
 [Mas informacion del circuito](/docs/Circuito%20y%20conexiones.pdf)
+
 *Con resistencia a convenir nos referimos a el lugar donde va conectado el dispositivo que recibe la señal electrica, en el caso de ejemplo, usamos un diodo LED*
 
 #### Paso 2: Conectar la Raspberry al puerto USB
