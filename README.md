@@ -8,10 +8,10 @@ Repositorio del grupo 3 para el proyecto del ramo *Proyecto Inicial* – 2025.
 
 | Nombre y Apellido | Usuario GitHub | Correo USM                                                              | Rol          |
 | ----------------- | -------------- | ----------------------------------------------------------------------- | ------------ |
-| Joaqun Carey      | @jokopro9453   | [jcarey@usm.cl](https://www.youtube.com/watch?v=dQw4w9WgXcQ)            | 202530002-8  |
-| Samuel Pinto      | @SamuelP-27    | [spintom@usm.cl](https://www.youtube.com/watch?v=dQw4w9WgXcQ)           | 202530021-4  |
-| Felipe Hinrichsen | @mitrono24     | [fhinrichsen@usm.cl](https://www.youtube.com/watch?v=dQw4w9WgXcQ)       | 202530007-9  |
-| Vicente Venegas   | @vichous       | [vvenegas@usm.cl](https://www.youtube.com/watch?v=dQw4w9WgXcQ)          | 202530011-7  |
+| Joaqun Carey      | @jokopro9453   | jcarey@usm.cl            | 202530002-8  |
+| Samuel Pinto      | @SamuelP-27    | spintom@usm.cl           | 202530021-4  |
+| Felipe Hinrichsen | @mitrono24     | fhinrichsen@usm.cl       | 202530007-9  |
+| Vicente Venegas   | @vichous       | vvenegas@usm.cl          | 202530011-7  |
 
 ---
 
@@ -85,6 +85,7 @@ V-Lock constituye una solución de protección adicional para una amplia gama de
  
 #### Paso 5: Configura Thonny a tu Raspberry
 [Guia de configuracion](https://core-electronics.com.au/guides/how-to-setup-a-raspberry-pi-pico-and-code-with-thonny/)
+
 *El archivo de firmware lo encontraras:* [aqui](https://github.com/jokopro9453/PROY-2025-GRUPO3/blob/main/src/raspi/mp_firmware_unofficial_latest.uf2)
 
 #### Paso 6: Carga los archivos de src/raspi/ a la Raspberry
@@ -141,3 +142,6 @@ ComputadorasySensores. (s.f.). *Capitulo70* [Repositorio en GitHub](https://gith
 
 Carglglz. (s.f.). *NFC_PN532_SPI* [Repositorio en GitHub](https://github.com/Carglglz/NFC_PN532_SPI)
 
+## 📺 Video de presentacion V-Lock
+
+[Aqui el video](https://youtube.com/shorts/LS934KOGzr0)

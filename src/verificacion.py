@@ -55,7 +55,7 @@ def comparar_audios(target_audio, folder_audios="audios_verificacion"):
         # Actualizar la mayor similitud encontrada
         if (mayor_sim is None) or (promedio > mayor_sim):
             mayor_sim = promedio
-            print("El resultado de la comparacion de audios es :", round(mayor_sim,3))
+            print("La similitud de la voz fue de: ", round(mayor_sim,3))
     
     if mayor_sim is None:
         raise RuntimeError("No se pudo calcular ninguna similitud")

@@ -37,7 +37,7 @@ def convert_to_text() -> str:
             status = response.json()["status"]
 
             if status == "completed":
-                print("La respuesta de el audio fue: ",response.json()["text"])
+                print("La respuesta de el usuario fue: ",response.json()["text"])
                 return response.json()["text"]
             elif status == "error":
                 raise RuntimeError(f"Error en transcripción: {response.json()['error']}")
