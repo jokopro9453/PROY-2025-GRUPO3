@@ -25,7 +25,7 @@ TELE_API = os.getenv("TELEGRAM_API")
 
 
 # Url de la raspi
-url = "http://192.168.137.241/led/on"
+url = "http://192.168.137.35/led/on"
 
 # Carpetas
 audios = "audios"
@@ -41,7 +41,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     passwd = rpass()
     context.user_data['passwd'] = passwd
     print("La contraseña dada por sistema es: "+ passwd)
-    await update.message.reply_text(f"¡Hola! Tu contraseña de un solo uso es >> {passwd} <<. ¡Ahora envía un mensaje de voz!")
+    await update.message.reply_text(f"¡Hola! Tu contraseña de un solo uso es \n>> {passwd} <<\n ¡Ahora envía un mensaje de voz!")
 
     
 # Control de auidio
